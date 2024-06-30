@@ -11,6 +11,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.Data;
+using TodoList.Utilities;
 namespace TodoList
 {
     /// <summary>
@@ -25,9 +26,10 @@ namespace TodoList
         }
         private void LoadTodos()
         {
-            using (SqlConnection _connection = new SqlConnection("Server=localhost; Database=TodoDB;User Id=sa; Password=123456; Trusted_Connection=True; TrustServerCertificate=True"))
+            //"Server=localhost; Database=TodoDB;User Id=sa; Password=123456; Trusted_Connection=True; TrustServerCertificate=True"
+            using (SqlConnection _connection = new SqlConnection(Helper.GetConnectionString("TodoListDB")))
             {
-                
+
                 _connection.Open();
                 string query = "SELECT * FROM Todos ORDER BY DueDate";
                 SqlDataAdapter adapter = new SqlDataAdapter(query, _connection);
@@ -43,7 +45,7 @@ namespace TodoList
             string description = descriptionTextBox.Text;
             DateTime dueDate = dueDatePicker.SelectedDate ?? DateTime.Now;
 
-            using (SqlConnection _connection = new SqlConnection("Server=localhost; Database=TodoDB;User Id=sa; Password=123456; Trusted_Connection=True; TrustServerCertificate=True"))
+            using (SqlConnection _connection = new SqlConnection(Helper.GetConnectionString("TodoListDB")))
             {
                 _connection.Open();
                 string query = "INSERT INTO Todos (Title, Description, DueDate) VALUES (@Title, @Description, @DueDate)";
@@ -65,7 +67,7 @@ namespace TodoList
             {
                 int id = (int)selected["Id"];
 
-                using (SqlConnection _connection = new SqlConnection("Server=localhost; Database=TodoDB;User Id=sa; Password=123456; Trusted_Connection=True; TrustServerCertificate=True"))
+                using (SqlConnection _connection = new SqlConnection(Helper.GetConnectionString("TodoListDB")))
                 {
                     _connection.Open();
                     string query = "UPDATE Todos SET IsDone = 1 WHERE Id = @Id";
