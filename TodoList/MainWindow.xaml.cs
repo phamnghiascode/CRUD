@@ -22,6 +22,7 @@ namespace TodoList
         public MainWindow()
         {
             InitializeComponent();
+            LoadTodos();
             
         }
         private void LoadTodos()
@@ -85,6 +86,26 @@ namespace TodoList
             titleTextBox.Text = "";
             descriptionTextBox.Text = "";
             dueDatePicker.SelectedDate = null;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = todosDataGrid.SelectedItem as DataRowView;
+            if (selected != null)
+            {
+                int id = (int)selected["Id"];
+
+                using (SqlConnection _connection = new SqlConnection(Helper.GetConnectionString("TodoListDB")))
+                {
+                    _connection.Open();
+                    string query = "DELETE FROM Todos WHERE Id = @Id";
+                    SqlCommand command = new SqlCommand(query, _connection);
+                    command.Parameters.AddWithValue("@Id", id);
+                    command.ExecuteNonQuery();
+                }
+
+                LoadTodos();
+            }
         }
     }
 }

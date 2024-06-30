@@ -11,13 +11,29 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
-        <StackPanel Orientation="Vertical" Margin="10">
-            <TextBox x:Name="titleTextBox" Margin="0,0,0,5"  />
-            <TextBox x:Name="descriptionTextBox" Margin="0,0,0,5" />
-            <DatePicker x:Name="dueDatePicker" Margin="0,0,0,10" />
-            <Button x:Name="addTodoButton" Content="Add Todo" Click="AddTodo_Click" />
-        </StackPanel>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="8*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Margin="8" Text="Task Name" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Margin="8" Text="Description" HorizontalAlignment="Center"/>
+            </Grid>
+            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10">
+                <TextBox x:Name="titleTextBox" Margin="0,0,0,5"  />
+                <TextBox x:Name="descriptionTextBox" Margin="0,0,0,5" />
+                <DatePicker x:Name="dueDatePicker" Margin="0,0,0,10" />
+                <Button x:Name="addTodoButton" Content="Add Todo" Click="AddTodo_Click" />
+            </StackPanel>
+        </Grid>
+        
 
         <DataGrid x:Name="todosDataGrid" Grid.Row="1" Margin="10" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.Columns>
@@ -29,6 +45,13 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Content="Mark as Done" Click="MarkAsDone_Click" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Delete" Click="Button_Click" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
